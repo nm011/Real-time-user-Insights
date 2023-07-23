@@ -5,17 +5,13 @@ const { createCanvas, registerFont } = require('canvas');
 const { Chart, registerables } = require('chart.js');
 const fs = require('fs');
 
-// Register the necessary modules
 Chart.register(...registerables);
 
-// Store data
 let timestamps = [];
 let counts = [];
 
-// Define the API URL
 const apiURL = 'http://127.0.0.1:8000/api/hello';
 
-// Set up the initial charts and canvases
 const charts = [];
 const canvases = [];
 const fileMaxEntries = [5000, 1000, 200, 50];
@@ -45,7 +41,7 @@ for (let i = 0; i < fileMaxEntries.length; i++) {
       options: {
         scales: {
           y: {
-            type: 'linear', // Use the "linear" scale explicitly
+            type: 'linear', 
             beginAtZero: true,
           },
         },
@@ -54,10 +50,6 @@ for (let i = 0; i < fileMaxEntries.length; i++) {
   );
 }
 
-// Load a font if needed
-// registerFont('path/to/font', { family: 'Font Family Name' });
-
-// Retrieve data from the API
 async function retrieveData() {
   try {
     const response = await fetch(apiURL);
@@ -68,7 +60,6 @@ async function retrieveData() {
     timestamps.push(timestamp);
     counts.push(count);
 
-    // Update each chart and limit the number of data points
     for (let i = 0; i < fileMaxEntries.length; i++) {
       const maxEntries = fileMaxEntries[i];
       const currentChart = charts[i];
@@ -80,16 +71,13 @@ async function retrieveData() {
       currentChart.data.datasets[0].data = currentCounts;
       currentChart.update();
 
-      // Resize the canvas
       currentCanvas.width = imageWidth;
       currentCanvas.height = imageHeight;
 
       const context = currentCanvas.getContext('2d');
 
-      // Clear the canvas
       context.clearRect(0, 0, currentCanvas.width, currentCanvas.height);
 
-      // Draw the chart on the resized canvas
       currentChart.render({
         duration: 0,
         responsive: false,
@@ -173,7 +161,6 @@ app.listen(3000, () => {
   retrieveData();
 });
 
-// Read data from files on startup
 for (let i = 0; i < fileMaxEntries.length; i++) {
   const maxEntries = fileMaxEntries[i];
 
