@@ -13,6 +13,8 @@ $ gunicorn api:app
 A folder `chart_plotter`, which has the file `app.js`, node_modules, etc.
 
 ```
+$ npm install
+
 $ node app.js 
 ```
 
